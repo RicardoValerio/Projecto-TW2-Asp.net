@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="AdminView.master.cs" Inherits="Admin_AdminView" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MainAdminView.master.cs" Inherits="Admin_AdminView" %>
 
 <!DOCTYPE html>
 
@@ -49,14 +49,15 @@
                     <a class="navbar-brand" runat="server" href=".">
                         <img src="../Content/Assets/logo.png" alt="Tecnologias Web II" /></a>
                 </div>
-                <%--     <div class="navbar-collapse collapse">
+                <%--     
+                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
                     </ul>
-
-                </div>--%>
+                </div>
+                --%>
                 <ul class="text-center nav navbar-nav navbar-right">
                     <%--<li style="text-align:center;"><a runat="server" href="#">Logout</a></li>--%>
 

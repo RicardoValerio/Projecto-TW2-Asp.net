@@ -1,10 +1,10 @@
-﻿<%@ Page Title="Localidades" Language="C#" MasterPageFile="~/Admin/AdminView.Master" AutoEventWireup="true" CodeFile="Localidades.aspx.cs" Inherits="Admin_Localidades" %>
+﻿<%@ Page Title="Localidades" Language="C#" MasterPageFile="~/Admin/MainAdminView.Master" AutoEventWireup="true" CodeFile="Localidades.aspx.cs" Inherits="Admin_Localidades" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
-    <asp:GridView class="table" style="margin: 0 auto;" ID="GridView1" runat="server" AllowPaging="true" AutoGenerateColumns="False" DataKeyNames="ID_Localidade"
+    <asp:GridView class="table" style="margin: 0 auto;" ID="GridView1" runat="server" AllowPaging="true" AllowSorting="true" AutoGenerateColumns="False" DataKeyNames="ID_Localidade"
         OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>

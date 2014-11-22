@@ -1,0 +1,88 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MainUserView.master.cs" Inherits="User_MainUserView" %>
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - Projecto de TW2</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+
+</head>
+<body>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=301884 --%>
+                <%--Framework Scripts--%>
+                <asp:ScriptReference Name="MsAjaxBundle" />
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="bootstrap" />
+                <asp:ScriptReference Name="respond" />
+                <asp:ScriptReference Name="WebForms.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebForms.js" />
+                <asp:ScriptReference Name="WebUIValidation.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebUIValidation.js" />
+                <asp:ScriptReference Name="MenuStandards.js" Assembly="System.Web" Path="~/Scripts/WebForms/MenuStandards.js" />
+                <asp:ScriptReference Name="GridView.js" Assembly="System.Web" Path="~/Scripts/WebForms/GridView.js" />
+                <asp:ScriptReference Name="DetailsView.js" Assembly="System.Web" Path="~/Scripts/WebForms/DetailsView.js" />
+                <asp:ScriptReference Name="TreeView.js" Assembly="System.Web" Path="~/Scripts/WebForms/TreeView.js" />
+                <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
+                <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
+                <asp:ScriptReference Name="WebFormsBundle" />
+                <%--Site Scripts--%>
+            </Scripts>
+        </asp:ScriptManager>
+
+        <div style="background-color: rgba(118, 79, 141, 1); height: 4.55em;" class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a style="margin-right: 200px;" class="navbar-brand" runat="server" href=".">
+                        <img src="../Content/Assets/logo.png" alt="Tecnologias Web II" /></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul style="margin-top:7px;" class="nav navbar-nav">
+                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/About">About</a></li>
+                        <li><a runat="server" href="~/Contact">Contact</a></li>
+                        
+                    </ul>
+                </div>
+
+                <ul class="nav navbar-nav navbar-right">
+                    <%--<li style="text-align:center;"><a runat="server" href="#">Logout</a></li>--%>
+
+                    <li>
+
+                        <%-- <button runat="server" style="margin-top: 17px;" id="logOutButton" class="btn btn-default btn-sm" onClick="LogOutButtonClicked">
+                            <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log Out
+                        </button>--%>
+                        <asp:Button Style="margin-top: -87px; background-image: url('../Content/Assets/logo-logout.png'); background-size: 13px auto; background-repeat: no-repeat; background-position: 7px center; padding-left: 25px;"
+                            class="btn btn-default btn-sm" ID="Button1" runat="server" Text="Logout" OnClick="LogOutButtonClicked" />
+                    </li>
+
+                </ul>
+            </div>
+            <%-- END OF CONTAINER --%>
+        </div>
+        <div class="container body-content">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+            <hr />
+            <footer>
+                <p>Universidade Europeia - <%: DateTime.Now.Year %> - Projecto para a disciplina de Tecnologias Web II</p>
+            </footer>
+        </div>
+    </form>
+</body>
+</html>
+

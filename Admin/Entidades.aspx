@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Entidades" Language="C#" MasterPageFile="~/Admin/AdminView.Master" AutoEventWireup="true" CodeFile="Entidades.aspx.cs" Inherits="Admin_Entidades" %>
+﻿<%@ Page Title="Entidades" Language="C#" MasterPageFile="~/Admin/MainAdminView.Master" AutoEventWireup="true" CodeFile="Entidades.aspx.cs" Inherits="Admin_Entidades" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">

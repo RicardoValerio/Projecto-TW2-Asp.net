@@ -1,10 +1,10 @@
-﻿<%@ Page Title="Users" Language="C#" MasterPageFile="~/Admin/AdminView.Master" AutoEventWireup="true" CodeFile="Users.aspx.cs" Inherits="Users" %>
+﻿<%@ Page Title="Users" Language="C#" MasterPageFile="~/Admin/MainAdminView.Master" AutoEventWireup="true" CodeFile="Users.aspx.cs" Inherits="Users" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
-    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="true" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Skill"
+    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="true" AllowSorting="true" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Skill"
         OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>

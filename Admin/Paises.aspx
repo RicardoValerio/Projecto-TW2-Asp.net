@@ -1,11 +1,10 @@
-﻿<%@ Page Title="Países" Language="C#" MasterPageFile="~/Admin/AdminView.Master" AutoEventWireup="true" CodeFile="Paises.aspx.cs" Inherits="Admin_Paises" %>
+﻿<%@ Page Title="Países" Language="C#" MasterPageFile="~/Admin/MainAdminView.Master" AutoEventWireup="true" CodeFile="Paises.aspx.cs" Inherits="Admin_Paises" %>
 
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
-    <asp:GridView class="table" style="margin: 0 auto;" ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Pais"
-        OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
+    <asp:GridView class="table" style="margin: 0 auto;" ID="GridView1" runat="server" AutoGenerateColumns="False" AllowPaging="true" AllowSorting="true" DataKeyNames="ID_Pais" OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>
             <asp:TemplateField HeaderText="Nome" ItemStyle-Width="150">
