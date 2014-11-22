@@ -18,10 +18,10 @@ public partial class Login : System.Web.UI.Page
     {
         if ( TBinputEmail.Text == "A" && TBinputPassword.Text == "B" ) {
             // se o segundo parametro for verdadeiro é criado um cookie mas não é necessário
-            //FormsAuthentication.RedirectFromLoginPage( TBinputEmail.Text, false );
-            FormsAuthentication.SetAuthCookie( TBinputEmail.Text, false );
+            FormsAuthentication.RedirectFromLoginPage( TBinputEmail.Text, true );
+            //FormsAuthentication.SetAuthCookie( TBinputEmail.Text, false );
             // se for Admin redirecciona para
-            Response.Redirect( "~/Admin", true );
+            //Response.Redirect( "~/Admin", true );
             // se for User:    Response.Redirect( "~/Admin", true );
         } else {
             Response.Write( "USER ou PASS erradas!" );

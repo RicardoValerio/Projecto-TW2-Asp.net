@@ -16,7 +16,7 @@
                     <asp:TextBox ID="txtNome" runat="server" Text='<%# Eval("Nome") %>'></asp:TextBox>
                 </EditItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Descricao" ItemStyle-Width="150">
+            <asp:TemplateField HeaderText="Descrição" ItemStyle-Width="150">
                 <ItemTemplate>
                     <asp:Label ID="lblDescricao" runat="server" Text='<%# Eval("Descricao") %>'></asp:Label>
                 </ItemTemplate>

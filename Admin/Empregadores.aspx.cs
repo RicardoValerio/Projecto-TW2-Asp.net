@@ -23,7 +23,7 @@ public partial class Admin_Empregadores : System.Web.UI.Page
     {
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Skills_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Empregadores_CRUD" ) ) {
                 cmd.Parameters.AddWithValue( "@Action", "SELECT" );
                 using ( SqlDataAdapter sda = new SqlDataAdapter() ) {
                     cmd.CommandType = CommandType.StoredProcedure;
@@ -41,17 +41,17 @@ public partial class Admin_Empregadores : System.Web.UI.Page
 
     protected void Insert( object sender, EventArgs e )
     {
-        string nome = TBnome.Text;
-        string descricao = TBdescricao.Text;
+        string nomeEmpregador = TBnome.Text;
+        string descricaoEmpregador = TBdescricao.Text;
         TBnome.Text = "";
         TBdescricao.Text = "";
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Skills_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Empregadores_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "INSERT" );
-                cmd.Parameters.AddWithValue( "@Nome", nome );
-                cmd.Parameters.AddWithValue( "@Descricao", descricao );
+                cmd.Parameters.AddWithValue( "@Nome", nomeEmpregador );
+                cmd.Parameters.AddWithValue( "@Descricao", descricaoEmpregador );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -70,17 +70,17 @@ public partial class Admin_Empregadores : System.Web.UI.Page
     protected void OnRowUpdating( object sender, GridViewUpdateEventArgs e )
     {
         GridViewRow row = GridView1.Rows[e.RowIndex];
-        int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
-        string nome = ( row.FindControl( "txtNome" ) as TextBox ).Text;
-        string descricao = ( row.FindControl( "txtDescricao" ) as TextBox ).Text;
+        int IdEmpregador = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+        string nomeEmpregador = ( row.FindControl( "txtNome" ) as TextBox ).Text;
+        string descricaoEmpregador = ( row.FindControl( "txtDescricao" ) as TextBox ).Text;
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Skills_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Empregadores_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
-                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
-                cmd.Parameters.AddWithValue( "@Nome", nome );
-                cmd.Parameters.AddWithValue( "@Descricao", descricao );
+                cmd.Parameters.AddWithValue( "@ID_Empregador", IdEmpregador );
+                cmd.Parameters.AddWithValue( "@Nome", nomeEmpregador );
+                cmd.Parameters.AddWithValue( "@Descricao", descricaoEmpregador );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -99,13 +99,13 @@ public partial class Admin_Empregadores : System.Web.UI.Page
 
     protected void OnRowDeleting( object sender, GridViewDeleteEventArgs e )
     {
-        int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+        int IdEmpregador = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Skills_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Empregadores_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "DELETE" );
-                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@ID_Empregador", IdEmpregador );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();

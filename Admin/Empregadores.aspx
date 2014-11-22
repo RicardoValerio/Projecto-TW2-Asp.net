@@ -4,7 +4,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
-    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="true" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Skill"
+    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_Empregador"
         OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>
@@ -16,7 +16,7 @@
                     <asp:TextBox ID="txtNome" runat="server" Text='<%# Eval("Nome") %>'></asp:TextBox>
                 </EditItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Descricao" ItemStyle-Width="150">
+            <asp:TemplateField HeaderText="Descrição" ItemStyle-Width="150">
                 <ItemTemplate>
                     <asp:Label ID="lblDescricao" runat="server" Text='<%# Eval("Descricao") %>'></asp:Label>
                 </ItemTemplate>
@@ -27,6 +27,7 @@
             <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" ControlStyle-CssClass="btn updadeDeleteButtons" />
         </Columns>
     </asp:GridView>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TW2ProjectConnectionString %>" SelectCommand="SELECT [ID_Empregador], [Nome], [Descricao] FROM [Empregadores]"></asp:SqlDataSource>
     <hr />
 
     <table class="table" border="1" style="margin: 0 auto; border-collapse: collapse">
