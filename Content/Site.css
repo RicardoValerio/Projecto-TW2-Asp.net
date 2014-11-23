@@ -34,6 +34,7 @@ textarea {
     background-color: #f0ad4e;
     border-color: #eea236;
     margin-left: 10px;
+    margin-bottom: 5px;
     width: 5em;
 }
 
@@ -41,6 +42,19 @@ textarea {
     color: #fff;
     background-color: #d9534f;
     border-color: #d43f3a;
-    margin-left: 25px;
+    margin-left: 8px;
+    margin-bottom: 5px;
     width: 5em;
+}
+
+.userEditExtraInfo {
+    color: #fff;
+    background-color: rgba(179, 107, 206, 1);
+    border-color: rgba(179, 107, 206, 1);
+    margin-left: 8px;
+    margin-bottom: 5px;
+    width: 6em;
+}
+.userEditExtraInfo:hover {
+    color: #fff;
 }

@@ -10,12 +10,23 @@ using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
 
-public partial class Users : System.Web.UI.Page
+public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 {
     protected void Page_Load( object sender, EventArgs e )
     {
         if ( !this.IsPostBack ) {
-            this.BindGrid();
+            if ( !( Request.QueryString.Count > 0 ) ) {
+                Response.Redirect( "Users.aspx" );
+            } else {
+
+                // verificar se o USERID passado existe na base de dados
+                // se existe fazer isto:
+                Response.Write("SUCESSO - UserId na URL é: " + Request.QueryString["UserId"]);
+                int UserId = Convert.ToInt32(Request.QueryString["UserId"]);
+                this.BindGrid();
+                // se não existir fazer aqueloutro:
+                
+            }
         }
     }
 
@@ -121,4 +132,6 @@ public partial class Users : System.Web.UI.Page
             ( e.Row.Cells[4].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
         }
     }
+
+
 }

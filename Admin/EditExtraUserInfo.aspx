@@ -1,5 +1,4 @@
-﻿<%@ Page Title="Users" Language="C#" MasterPageFile="~/Admin/MainAdminView.Master" AutoEventWireup="true" CodeFile="Users.aspx.cs" Inherits="Users" %>
-
+﻿<%@ Page Title="Edit User Extra Info" Language="C#" MasterPageFile="~/Admin/MainAdminView.Master" AutoEventWireup="true" CodeFile="EditExtraUserInfo.aspx.cs" Inherits="Admin_EditExtraUserInfo" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
@@ -53,7 +52,6 @@
 
 <ItemStyle Width="150px"></ItemStyle>
             </asp:CommandField>
-            <asp:HyperLinkField HeaderStyle-Width="50" ControlStyle-CssClass="btn userEditExtraInfo" HeaderText="" NavigateUrl="EditExtraUserInfo" Text="Extra Info" DataNavigateUrlFields="Id_User" DataNavigateUrlFormatString="EditExtraUserInfo.aspx?UserId={0}" />      
         </Columns>
     </asp:GridView>
 
