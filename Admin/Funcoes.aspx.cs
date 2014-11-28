@@ -116,4 +116,12 @@ public partial class Admin_Funcoes : System.Web.UI.Page
             ( e.Row.Cells[1].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
         }
     }
+
+    protected void OnPaging( object sender, GridViewPageEventArgs e )
+    {
+        this.BindGrid();
+        GridView1.PageIndex = e.NewPageIndex;
+        GridView1.DataBind();
+
+    }
 }

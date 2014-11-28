@@ -133,5 +133,12 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
         }
     }
 
+    protected void OnPaging( object sender, GridViewPageEventArgs e )
+    {
+        this.BindGrid();
+        GridView1.PageIndex = e.NewPageIndex;
+        GridView1.DataBind();
+
+    }
 
 }

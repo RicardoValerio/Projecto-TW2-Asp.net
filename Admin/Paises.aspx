@@ -4,7 +4,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
-    <asp:GridView class="table" style="margin: 0 auto;" ID="GridView1" runat="server" AutoGenerateColumns="False" AllowPaging="true" AllowSorting="true" DataKeyNames="ID_Pais" OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
+    <asp:GridView class="table" style="margin: 0 auto;" ID="GridView1" runat="server" AutoGenerateColumns="False" AllowPaging="true" PageSize="5" OnPageIndexChanging="OnPaging" AllowSorting="true" DataKeyNames="ID_Pais" OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>
             <asp:TemplateField HeaderText="Nome" ItemStyle-Width="150">

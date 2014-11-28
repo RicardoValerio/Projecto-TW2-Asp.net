@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
-    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" AllowSorting="True" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_User"
+    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" OnPageIndexChanging="OnPaging" AllowSorting="True" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_User"
         OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>
