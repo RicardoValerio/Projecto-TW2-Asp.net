@@ -25,6 +25,13 @@
                 </EditItemTemplate>
             </asp:TemplateField>
             <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" ControlStyle-CssClass="btn updadeDeleteButtons" />
+
+            <asp:HyperLinkField HeaderStyle-Width="50" ControlStyle-CssClass="btn userEditExtraInfo" HeaderText="" NavigateUrl="EditExtraUserInfo" Text="Extra Info" DataNavigateUrlFields="ID_Entidade" DataNavigateUrlFormatString="EditExtraEntidadeInfo.aspx?EntidadeId={0}" />      
+    
+                </Columns>
+    </asp:GridView>
+
+
         </Columns>
     </asp:GridView>
 

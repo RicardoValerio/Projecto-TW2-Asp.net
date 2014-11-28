@@ -53,7 +53,7 @@
 
 <ItemStyle Width="150px"></ItemStyle>
             </asp:CommandField>
-            <asp:HyperLinkField HeaderStyle-Width="50" ControlStyle-CssClass="btn userEditExtraInfo" HeaderText="" NavigateUrl="EditExtraUserInfo" Text="Extra Info" DataNavigateUrlFields="Id_User" DataNavigateUrlFormatString="EditExtraUserInfo.aspx?UserId={0}" />      
+            <asp:HyperLinkField HeaderStyle-Width="50" ControlStyle-CssClass="btn userEditExtraInfo" HeaderText="" NavigateUrl="EditExtraUserInfo" Text="Extra Info" DataNavigateUrlFields="ID_User" DataNavigateUrlFormatString="EditExtraUserInfo.aspx?UserId={0}" />      
         </Columns>
     </asp:GridView>
 

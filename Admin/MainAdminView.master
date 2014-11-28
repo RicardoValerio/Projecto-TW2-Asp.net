@@ -63,16 +63,11 @@
 
                     <li>
 
-                       <%-- <button runat="server" style="margin-top: 17px;" id="logOutButton" class="btn btn-default btn-sm" onClick="LogOutButtonClicked">
+                        <%-- <button runat="server" style="margin-top: 17px;" id="logOutButton" class="btn btn-default btn-sm" onClick="LogOutButtonClicked">
                             <span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Log Out
                         </button>--%>
-                        <asp:Button style="
-                                        margin-top: 17px;
-                                        background-image: url('../Content/Assets/logo-logout.png');
-                                        background-size: 13px auto;
-                                        background-repeat: no-repeat;
-                                        background-position: 7px center;
-                                        padding-left: 25px;" class="btn btn-default btn-sm" ID="Button1" runat="server" Text="Logout" OnClick="LogOutButtonClicked" />
+                        <asp:Button Style="margin-top: 17px; background-image: url('../Content/Assets/logo-logout.png'); background-size: 13px auto; background-repeat: no-repeat; background-position: 7px center; padding-left: 25px;"
+                            class="btn btn-default btn-sm" ID="Button1" runat="server" Text="Logout" OnClick="LogOutButtonClicked" />
                     </li>
 
 

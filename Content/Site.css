@@ -55,6 +55,7 @@ textarea {
     margin-bottom: 5px;
     width: 6em;
 }
-.userEditExtraInfo:hover {
-    color: #fff;
-}
+
+    .userEditExtraInfo:hover {
+        color: #fff;
+    }
