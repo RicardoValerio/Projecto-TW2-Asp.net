@@ -4,8 +4,17 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <h2><%: Title %></h2>
 
+    <asp:TextBox ID="nomeSearch" runat="server"></asp:TextBox>
+    <asp:DropDownList ID="DropDownList1" runat="server">
+        <asp:ListItem>OR</asp:ListItem>
+        <asp:ListItem>AND</asp:ListItem>
+    </asp:DropDownList>
+    <asp:TextBox ID="descricaoSearch" runat="server" ></asp:TextBox>
+
+    <asp:Button ID="searchInTableDescricao" runat="server" Text="Button" OnClick="searchInTableDescricao_Click" />
+
     <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" runat="server" AllowPaging="True" PageSize="5" OnPageIndexChanging="OnPaging" AllowSorting="True" AutoGenerateColumns="False" DataKeyNames="ID_Entidade"
-        OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit"
+        OnRowDataBound="OnRowDataBound" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit" 
         OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added.">
         <Columns>
             <asp:TemplateField HeaderText="Nome" ItemStyle-Width="150">

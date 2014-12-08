@@ -130,4 +130,8 @@ public partial class Admin_Entidades : System.Web.UI.Page
 
     }
 
+    protected void searchInTableDescricao_Click( object sender, EventArgs e )
+    {
+        
+    }
 }

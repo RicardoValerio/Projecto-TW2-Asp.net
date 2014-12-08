@@ -53,9 +53,9 @@
    <% 
        
         if ( Session.Count > 0 ) {
-            if ( Session["Perfil"] == "Admin" ) { %>
+            if ( Session["Perfil"].ToString() == "Admin" ) { %>
                        href="Admin"
-           <% } else if ( Session["Perfil"] == "User" ) { %>
+           <% } else if ( Session["Perfil"].ToString() == "User" ) { %>
                        href="User"
            <% }
         } else { %>

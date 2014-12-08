@@ -13,10 +13,7 @@ public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load( object sender, EventArgs e )
     {
-        if ( !String.IsNullOrEmpty( Request.Params["logout"] ) ) {
-            FormsAuthentication.SignOut();
-            Response.Redirect( "~/Login.aspx" );
-        }
+        
     }
 
     protected void SignIn( object sender, EventArgs e )
