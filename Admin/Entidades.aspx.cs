@@ -132,6 +132,11 @@ public partial class Admin_Entidades : System.Web.UI.Page
 
     protected void searchInTableDescricao_Click( object sender, EventArgs e )
     {
-        
+        String nome = nomeSearch.Text;
+        String descricao = descricaoSearch.Text;
+        String operadorLogico = DropDownList1.SelectedValue;
+
+
+
     }
 }
