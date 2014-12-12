@@ -9,6 +9,8 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 
 public partial class Users : System.Web.UI.Page
 {
@@ -42,16 +44,28 @@ public partial class Users : System.Web.UI.Page
     protected void Insert( object sender, EventArgs e )
     {
         string nome = TBnome.Text;
-        string descricao = TBdescricao.Text;
+        string email = TBEmail.Text;
+        string pais = TBPais.Text;
+        string localidade = TBLocalidade.Text;
+        string password = TBPassword.Text;
+
         TBnome.Text = "";
-        TBdescricao.Text = "";
+        TBEmail.Text = "";
+        TBPais.Text = "";
+        TBLocalidade.Text = "";
+        TBLocalidadeInserida.Text = "";
+
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
             using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "INSERT" );
                 cmd.Parameters.AddWithValue( "@Nome", nome );
-                cmd.Parameters.AddWithValue( "@Descricao", descricao );
+                cmd.Parameters.AddWithValue( "@Mail", email );
+                cmd.Parameters.AddWithValue( "@Password", Sha1(Salt(password)) );
+
+                cmd.Parameters.AddWithValue( "@Pais", pais );
+                cmd.Parameters.AddWithValue( "@Localidade", localidade );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -59,6 +73,21 @@ public partial class Users : System.Web.UI.Page
             }
         }
         this.BindGrid();
+    }
+
+    public string Salt( string text )
+    {
+        return
+          "zu5QnKrH4NJfOgV2WWqV5Oc1l" +
+          text +
+          "1DMuByokGSDyFPQ0DbXd9rAgW";
+    }
+
+    public string Sha1( string text )
+    {
+        byte[] clear = Encoding.UTF8.GetBytes( text );
+        byte[] hash = new SHA1CryptoServiceProvider().ComputeHash( clear );
+        return BitConverter.ToString( hash ).Replace( "-", "" ).ToLower();
     }
 
     protected void OnRowEditing( object sender, GridViewEditEventArgs e )
@@ -70,17 +99,22 @@ public partial class Users : System.Web.UI.Page
     protected void OnRowUpdating( object sender, GridViewUpdateEventArgs e )
     {
         GridViewRow row = GridView1.Rows[e.RowIndex];
-        int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+        int IdUser = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
         string nome = ( row.FindControl( "txtNome" ) as TextBox ).Text;
-        string descricao = ( row.FindControl( "txtDescricao" ) as TextBox ).Text;
+        string email = ( row.FindControl( "txtEmail" ) as TextBox ).Text;
+        string localidade = ( row.FindControl( "txtLocalidade" ) as DropDownList ).SelectedValue;
+
+
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
             using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
-                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@ID_User", IdUser );
                 cmd.Parameters.AddWithValue( "@Nome", nome );
-                cmd.Parameters.AddWithValue( "@Descricao", descricao );
+                cmd.Parameters.AddWithValue( "@Mail", email );
+                cmd.Parameters.AddWithValue( "@Localidade", localidade );
+
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -99,13 +133,14 @@ public partial class Users : System.Web.UI.Page
 
     protected void OnRowDeleting( object sender, GridViewDeleteEventArgs e )
     {
-        int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+        int IdUser = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
             using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "DELETE" );
-                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@ID_User", IdUser );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();

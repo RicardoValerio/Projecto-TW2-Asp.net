@@ -12,6 +12,8 @@ using System.Data.SqlClient;
 
 public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 {
+    public int UserId;
+
     protected void Page_Load( object sender, EventArgs e )
     {
         if ( !this.IsPostBack ) {
@@ -22,10 +24,9 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 // verificar se o USERID passado existe na base de dados
                 // se existe fazer isto:
                 Response.Write("SUCESSO - UserId na URL é: " + Request.QueryString["UserId"]);
-                int UserId = Convert.ToInt32(Request.QueryString["UserId"]);
+                UserId = Convert.ToInt32(Request.QueryString["UserId"]);
                 this.BindGrid();
                 // se não existir fazer aqueloutro:
-                
             }
         }
     }
