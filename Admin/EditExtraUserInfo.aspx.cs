@@ -21,17 +21,20 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 Response.Redirect( "Users.aspx" );
             } else {
 
+                UserId = Convert.ToInt32( Request.QueryString["UserId"] );
+                //Response.Write("UserId na URL é: " + Request.QueryString["UserId"]);
+
+
                 // verificar se o USERID passado existe na base de dados
                 // se existe fazer isto:
-                Response.Write("SUCESSO - UserId na URL é: " + Request.QueryString["UserId"]);
-                UserId = Convert.ToInt32(Request.QueryString["UserId"]);
-                this.BindGrid();
+                this.BindGridSkills();
                 // se não existir fazer aqueloutro:
             }
         }
     }
 
-    private void BindGrid()
+    //START SKILLS
+    private void BindGridSkills()
     {
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
@@ -51,7 +54,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
         }
     }
 
-    protected void Insert( object sender, EventArgs e )
+    protected void InsertSkills( object sender, EventArgs e )
     {
         string nome = TBnome.Text;
         string descricao = TBdescricao.Text;
@@ -70,16 +73,16 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 con.Close();
             }
         }
-        this.BindGrid();
+        this.BindGridSkills();
     }
 
-    protected void OnRowEditing( object sender, GridViewEditEventArgs e )
+    protected void OnRowEditingSkills( object sender, GridViewEditEventArgs e )
     {
         GridView1.EditIndex = e.NewEditIndex;
-        this.BindGrid();
+        this.BindGridSkills();
     }
 
-    protected void OnRowUpdating( object sender, GridViewUpdateEventArgs e )
+    protected void OnRowUpdatingSkills( object sender, GridViewUpdateEventArgs e )
     {
         GridViewRow row = GridView1.Rows[e.RowIndex];
         int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
@@ -100,16 +103,16 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
             }
         }
         GridView1.EditIndex = -1;
-        this.BindGrid();
+        this.BindGridSkills();
     }
 
-    protected void OnRowCancelingEdit( object sender, EventArgs e )
+    protected void OnRowCancelingEditSkills( object sender, EventArgs e )
     {
         GridView1.EditIndex = -1;
-        this.BindGrid();
+        this.BindGridSkills();
     }
 
-    protected void OnRowDeleting( object sender, GridViewDeleteEventArgs e )
+    protected void OnRowDeletingSkills( object sender, GridViewDeleteEventArgs e )
     {
         int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
@@ -124,22 +127,37 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 con.Close();
             }
         }
-        this.BindGrid();
+        this.BindGridSkills();
     }
 
-    protected void OnRowDataBound( object sender, GridViewRowEventArgs e )
+    protected void OnRowDataBoundSkills( object sender, GridViewRowEventArgs e )
     {
         if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridView1.EditIndex ) {
             ( e.Row.Cells[4].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
         }
     }
 
-    protected void OnPaging( object sender, GridViewPageEventArgs e )
+    protected void OnPagingSkills( object sender, GridViewPageEventArgs e )
     {
-        this.BindGrid();
+        this.BindGridSkills();
         GridView1.PageIndex = e.NewPageIndex;
         GridView1.DataBind();
 
     }
+
+    //END SKILLS
+
+    //START EXPERIENCIA
+    
+    //END EXPERIENCIA
+
+    //START FORMAÇÃO
+    //END FORMAÇÃO
+
+    //START CERTIFICADOS
+    //END CERTIFICADOS
+
+    //START PUBLICAÇÕES
+    //END PUBLICAÇÕES
 
 }

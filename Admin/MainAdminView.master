@@ -114,6 +114,9 @@
         <div class="container body-content">
             <div style="padding-top: 60px;" class="container">
                 <div class="row">
+                    <asp:ContentPlaceHolder ID="EditUserExtraInfo_BreadCrumb" runat="server"></asp:ContentPlaceHolder> 
+                </div>
+                <div class="row">
                     <div class="col-md-2">
                         <ul class="nav nav-pills nav-stacked text-center">
                             <li>
