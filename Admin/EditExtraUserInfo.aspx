@@ -38,7 +38,7 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
     <hr />
 <%-- START SKILLS --%>
 
-    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" OnPageIndexChanging="OnPagingSkills" AllowSorting="True" runat="server" AutoGenerateColumns="False"
+    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" DataKeyNames="ID_Skill" OnPageIndexChanging="OnPagingSkills" AllowSorting="True" runat="server" AutoGenerateColumns="False"
         OnRowDataBound="OnRowDataBoundSkills" OnRowEditing="OnRowEditingSkills" OnRowCancelingEdit="OnRowCancelingEditSkills"
         OnRowUpdating="OnRowUpdatingSkills" OnRowDeleting="OnRowDeletingSkills" EmptyDataText="No records has been added.">
         <Columns>
@@ -47,7 +47,7 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
                     <asp:Label ID="lblNome" runat="server" Text='<%# Eval("Nome") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:TextBox ID="txtNome" runat="server" Text='<%# Eval("Nome") %>'></asp:TextBox>
+                    <asp:TextBox ID="txtNomeSkill" runat="server" Text='<%# Eval("Nome") %>'></asp:TextBox>
                 </EditItemTemplate>
 
                 <ItemStyle Width="140px"></ItemStyle>
@@ -57,7 +57,7 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
                     <asp:Label ID="lblDescricao" runat="server" Text='<%# Eval("Descricao") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:TextBox ID="txtDescricao" runat="server" Text='<%# Eval("Descricao") %>'></asp:TextBox>
+                    <asp:TextBox ID="txtDescricaoSkill" runat="server" Text='<%# Eval("Descricao") %>'></asp:TextBox>
                 </EditItemTemplate>
 
                 <ItemStyle Width="140px"></ItemStyle>
@@ -78,17 +78,21 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
             <asp:QueryStringParameter DefaultValue="" Name="ID_User" QueryStringField="UserId" Type="Int32" />
             <asp:Parameter Name="ID_Skill" Type="Int32" />
         </SelectParameters>
+        <UpdateParameters>
+            <asp:Parameter DefaultValue="UPDATE" Name="Action" Type="String" />
+            <asp:QueryStringParameter DefaultValue="" Name="ID_User" QueryStringField="UserId" Type="Int32" />
+            <asp:Parameter Name="ID_Skill" Type="Int32" />
+        </UpdateParameters>
     </asp:SqlDataSource>
 
     <hr />
 
     <table class="table" border="1" style="margin: 0 auto; border-collapse: collapse">
         <tr>
-            <td style="width: 150px">Nome:<br />
-                <asp:TextBox ID="TBnome" runat="server" Width="300px" Height="35px" />
-            </td>
-            <td style="width: 150px">Descrição:<br />
-                <asp:TextBox ID="TBdescricao" runat="server" Width="300px" Height="35px" />
+            <td style="width: 150px">Skills:<br />
+                <%--<asp:TextBox ID="TBnome" runat="server" Width="300px" Height="35px" />--%>
+                <asp:DropDownList ID="DBNomeDaSkill" runat="server" DataSourceID="SqlDataSource2" DataValueField="ID_Skill" DataTextField="Nome"></asp:DropDownList>
+                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:TW2ProjectConnectionString %>" SelectCommand="SELECT [ID_Skill], [Nome] FROM [Skills]"></asp:SqlDataSource>
             </td>
             <td style="width: 100px">
                 <asp:Button class="btn btn-success" ID="btnAdd" runat="server" Text="Add" OnClick="InsertSkills" />

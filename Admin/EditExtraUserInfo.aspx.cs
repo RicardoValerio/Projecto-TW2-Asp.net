@@ -21,7 +21,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 Response.Redirect( "Users.aspx" );
             } else {
 
-                UserId = Convert.ToInt32( Request.QueryString["UserId"] );
+                this.UserId = Convert.ToInt32( Request.QueryString["UserId"] );
                 //Response.Write("UserId na URL é: " + Request.QueryString["UserId"]);
 
 
@@ -30,7 +30,10 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 this.BindGridSkills();
                 // se não existir fazer aqueloutro:
             }
+        } else {
+            this.UserId = Convert.ToInt32( Request.QueryString["UserId"] );
         }
+
     }
 
     //START SKILLS
@@ -57,17 +60,15 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     protected void InsertSkills( object sender, EventArgs e )
     {
-        string nome = TBnome.Text;
-        string descricao = TBdescricao.Text;
-        TBnome.Text = "";
-        TBdescricao.Text = "";
+        string skill = DBNomeDaSkill.SelectedValue;
+
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "User_Skills_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "INSERT" );
-                cmd.Parameters.AddWithValue( "@Nome", nome );
-                cmd.Parameters.AddWithValue( "@Descricao", descricao );
+                cmd.Parameters.AddWithValue( "@ID_User", 1 );
+                cmd.Parameters.AddWithValue( "@ID_Skill", skill );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -87,16 +88,17 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     {
         GridViewRow row = GridView1.Rows[e.RowIndex];
         int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
-        string nome = ( row.FindControl( "txtNome" ) as TextBox ).Text;
-        string descricao = ( row.FindControl( "txtDescricao" ) as TextBox ).Text;
+
+        //string nomeSkill = ( row.FindControl( "txtNome" ) as TextBox ).Text;
+        //string descricaoSkill = ( row.FindControl( "txtDescricao" ) as TextBox ).Text;
+
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "User_Skills_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
                 cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
-                cmd.Parameters.AddWithValue( "@Nome", nome );
-                cmd.Parameters.AddWithValue( "@Descricao", descricao );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -118,7 +120,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
         int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "User_Skills_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "DELETE" );
                 cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
