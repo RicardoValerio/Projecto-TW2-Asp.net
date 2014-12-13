@@ -72,11 +72,14 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
         </Columns>
     </asp:GridView>
 
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TW2ProjectConnectionString %>" SelectCommand="User_Skills_CRUD" SelectCommandType="StoredProcedure">
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TW2ProjectConnectionString %>" SelectCommand="User_Skills_CRUD" SelectCommandType="StoredProcedure" InsertCommandType="StoredProcedure" DeleteCommandType="StoredProcedure" UpdateCommandType="StoredProcedure" UpdateCommand="User_Skills_CRUD" InsertCommand="User_Skills_CRUD" DeleteCommand="User_Skills_CRUD">
         <SelectParameters>
             <asp:Parameter DefaultValue="SELECT" Name="Action" Type="String" />
             <asp:QueryStringParameter DefaultValue="" Name="ID_User" QueryStringField="UserId" Type="Int32" />
             <asp:Parameter Name="ID_Skill" Type="Int32" />
+            <asp:Parameter Direction="ReturnValue" Name="RETURN_VALUE" Type="Int32" />
+            <asp:Parameter DefaultValue="" Name="Nome_Skill" Type="String" />
+            <asp:Parameter Name="Descricao_Skill" Type="String" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter DefaultValue="UPDATE" Name="Action" Type="String" />
