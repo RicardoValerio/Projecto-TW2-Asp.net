@@ -13,14 +13,14 @@
     <div class="row">
     <h2><%: Title %></h2>
         <hr />
-        <div class="col-md-3">
-            <img src="http://demo.dnnrox.com/Portals/_default/Skins/Flatna2/img/icons/user@2x.png" alt="User Image" />
+        <div class="col-md-4">
+            <img src="../Content/UserImages/<%= user_image %>" alt="User Image" />
             <div>
                 <asp:FileUpload ID="FileUpload1" runat="server" />
             </div>
 
         </div>
-        <div class="col-md-9">
+        <div class="col-md-8">
             <p>Navbars are responsive meta components that serve as navigation headers for your application or site. They begin collapsed (and are toggleable) in mobile views and become horizontal as the available viewport width increases.
 
 Justified navbar nav links are currently not supported.
