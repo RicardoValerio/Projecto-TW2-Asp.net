@@ -38,7 +38,7 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
     <hr />
 <%-- START SKILLS --%>
 
-    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" OnPageIndexChanging="OnPagingSkills" AllowSorting="True" runat="server" AutoGenerateColumns="False" DataKeyNames="ID_User"
+    <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" OnPageIndexChanging="OnPagingSkills" AllowSorting="True" runat="server" AutoGenerateColumns="False"
         OnRowDataBound="OnRowDataBoundSkills" OnRowEditing="OnRowEditingSkills" OnRowCancelingEdit="OnRowCancelingEditSkills"
         OnRowUpdating="OnRowUpdatingSkills" OnRowDeleting="OnRowDeletingSkills" EmptyDataText="No records has been added.">
         <Columns>
@@ -52,36 +52,18 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
 
                 <ItemStyle Width="140px"></ItemStyle>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Email" ItemStyle-Width="140">
+            <asp:TemplateField HeaderText="Descrição" ItemStyle-Width="140">
                 <ItemTemplate>
-                    <asp:Label ID="lblEmail" runat="server" Text='<%# Eval("Mail") %>'></asp:Label>
+                    <asp:Label ID="lblDescricao" runat="server" Text='<%# Eval("Descricao") %>'></asp:Label>
                 </ItemTemplate>
                 <EditItemTemplate>
-                    <asp:TextBox ID="txtEmail" runat="server" Text='<%# Eval("Mail") %>'></asp:TextBox>
+                    <asp:TextBox ID="txtDescricao" runat="server" Text='<%# Eval("Descricao") %>'></asp:TextBox>
                 </EditItemTemplate>
 
                 <ItemStyle Width="140px"></ItemStyle>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Pais" ItemStyle-Width="100">
-                <ItemTemplate>
-                    <asp:Label ID="lblPais" runat="server" Text='<%# Eval("Pais") %>'></asp:Label>
-                </ItemTemplate>
-                <EditItemTemplate>
-                    <asp:TextBox ID="txtPais" runat="server" Text='<%# Eval("Pais") %>'></asp:TextBox>
-                </EditItemTemplate>
-
-                <ItemStyle Width="100px"></ItemStyle>
-            </asp:TemplateField>
-            <asp:TemplateField HeaderText="Localidade" ItemStyle-Width="100">
-                <ItemTemplate>
-                    <asp:Label ID="lblLocalidade" runat="server" Text='<%# Eval("Nome_Localidade") %>'></asp:Label>
-                </ItemTemplate>
-                <EditItemTemplate>
-                    <asp:TextBox ID="txtLocalidade" runat="server" Text='<%# Eval("Nome_Localidade") %>'></asp:TextBox>
-                </EditItemTemplate>
-
-                <ItemStyle Width="100px"></ItemStyle>
-            </asp:TemplateField>
+           
+           
             <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" ControlStyle-CssClass="btn updadeDeleteButtons">
                 <ControlStyle CssClass="btn updadeDeleteButtons"></ControlStyle>
 
@@ -89,6 +71,14 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
             </asp:CommandField>
         </Columns>
     </asp:GridView>
+
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:TW2ProjectConnectionString %>" SelectCommand="User_Skills_CRUD" SelectCommandType="StoredProcedure">
+        <SelectParameters>
+            <asp:Parameter DefaultValue="SELECT" Name="Action" Type="String" />
+            <asp:QueryStringParameter DefaultValue="" Name="ID_User" QueryStringField="UserId" Type="Int32" />
+            <asp:Parameter Name="ID_Skill" Type="Int32" />
+        </SelectParameters>
+    </asp:SqlDataSource>
 
     <hr />
 

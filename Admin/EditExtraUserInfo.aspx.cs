@@ -38,8 +38,9 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     {
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
-            using ( SqlCommand cmd = new SqlCommand( "Users_CRUD" ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "User_Skills_CRUD" ) ) {
                 cmd.Parameters.AddWithValue( "@Action", "SELECT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
                 using ( SqlDataAdapter sda = new SqlDataAdapter() ) {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Connection = con;
@@ -133,7 +134,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     protected void OnRowDataBoundSkills( object sender, GridViewRowEventArgs e )
     {
         if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridView1.EditIndex ) {
-            ( e.Row.Cells[4].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
+            ( e.Row.Cells[2].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
         }
     }
 
