@@ -13,6 +13,7 @@ using System.Data.SqlClient;
 public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 {
     public int UserId;
+    public String user_image;
 
     protected void Page_Load( object sender, EventArgs e )
     {
@@ -24,17 +25,63 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 this.UserId = Convert.ToInt32( Request.QueryString["UserId"] );
                 //Response.Write("UserId na URL é: " + Request.QueryString["UserId"]);
 
-
                 // verificar se o USERID passado existe na base de dados
-                // se existe fazer isto:
-                this.BindGridSkills();
-                // se não existir fazer aqueloutro:
+                if ( DatabaseHasUser() ) {
+                    //System.Diagnostics.Debug.WriteLine( "USER EXISTE!" );
+                    
+                    // se existe fazer isto:
+
+                    // ir buscar o nome da imagem relativa ao id do user 
+
+
+
+                    // fazer o bind de todas as tables
+                    this.BindGridSkills();
+
+                } else {
+                    // se não existir fazer aqueloutro:
+                    //System.Diagnostics.Debug.WriteLine( "USER NÃO EXISTE!" );
+
+                }
+
+
+
+
+
+
+
             }
         } else {
             this.UserId = Convert.ToInt32( Request.QueryString["UserId"] );
         }
 
     }
+
+    private Boolean DatabaseHasUser()
+    {
+        string strCon = System.Web
+                          .Configuration
+                          .WebConfigurationManager
+                          .ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+
+        SqlConnection sqlConnection1 = new SqlConnection( strCon );
+        SqlCommand cmd = new SqlCommand();
+        SqlDataReader reader;
+
+        cmd.CommandText = "SELECT * FROM Users WHERE ID_User = " + this.UserId;
+        cmd.CommandType = CommandType.Text;
+        cmd.Connection = sqlConnection1;
+        sqlConnection1.Open();
+
+        reader = cmd.ExecuteReader();
+        // Data is accessible through the DataReader object here.
+        Boolean userExists = reader.HasRows;
+        sqlConnection1.Close();
+
+        return userExists;
+
+    }
+
 
     //START SKILLS
     private void BindGridSkills()
@@ -73,7 +120,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 cmd.Parameters.AddWithValue( "@ID_Skill", skill );
                 cmd.Parameters.AddWithValue( "@Nome_Skill", "" );
                 cmd.Parameters.AddWithValue( "@Descricao_Skill", "" );
- 
+
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -159,7 +206,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     //END SKILLS
 
     //START EXPERIENCIA
-    
+
     //END EXPERIENCIA
 
     //START FORMAÇÃO

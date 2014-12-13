@@ -37,7 +37,7 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
 
     <hr />
 <%-- START SKILLS --%>
-
+    <h2>User Skills</h2>
     <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" DataKeyNames="ID_Skill" OnPageIndexChanging="OnPagingSkills" AllowSorting="True" runat="server" AutoGenerateColumns="False"
         OnRowDataBound="OnRowDataBoundSkills" OnRowEditing="OnRowEditingSkills" OnRowCancelingEdit="OnRowCancelingEditSkills"
         OnRowUpdating="OnRowUpdatingSkills" OnRowDeleting="OnRowDeletingSkills" EmptyDataText="No records has been added.">
@@ -103,9 +103,13 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
         </tr>
     </table>
 
+    <hr />
 <%-- END SKILLS --%>
 
 <%-- START EXPERIENCIA --%>
+
+
+
 <%-- END EXPERIENCIA --%>
 
 
