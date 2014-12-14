@@ -5,10 +5,14 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using System.IO;
+using System.Collections.Generic;
 
 using System.Data;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Security.Cryptography;
+using System.Text;
 
 public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 {
@@ -41,15 +45,10 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                     Response.Redirect( "Users.aspx" );
                 }
 
-
-
-
-
-
-
             }
         } else {
             this.UserId = Convert.ToInt32( Request.QueryString["UserId"] );
+            SetUserImage();
         }
 
     }
@@ -101,6 +100,96 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
         sqlConnection1.Close();
 
         return userExists;
+
+    }
+
+    private string GetSHA1HashData( string data )
+    {
+        //create new instance of md5
+        SHA1 sha1 = SHA1.Create();
+
+        //convert the input text to array of bytes
+        byte[] hashData = sha1.ComputeHash( Encoding.Default.GetBytes( data ) );
+
+        //create new instance of StringBuilder to save hashed data
+        StringBuilder returnValue = new StringBuilder();
+
+        //loop for each byte and add it to StringBuilder
+        for ( int i = 0; i < hashData.Length; i++ ) {
+            returnValue.Append( hashData[i].ToString() );
+        }
+
+        // return hexadecimal string
+        return returnValue.ToString();
+    }
+
+    private String UploadedImageHasValidExtension()
+    {
+        string fileExtension = FileUpload1.PostedFile.ContentType;
+
+        switch ( fileExtension ) {
+            case "image/jpeg":
+            fileExtension = ".jpg";
+
+            break;
+            case "image/png":
+            fileExtension = ".png";
+            break;
+            default:
+            fileExtension = "nonValid";
+            break;
+        }
+
+        return fileExtension;
+    }
+
+    protected void UploadUserImage( object sender, EventArgs e )
+    {
+        if ( FileUpload1.HasFile ) {
+
+            String fileExtension = UploadedImageHasValidExtension();
+            if ( fileExtension == "nonValid" ) {
+                LabelErroUploadImagem.Style.Remove( "display" );
+                return;
+            }
+
+            string fileName = Path.GetFileName( FileUpload1.PostedFile.FileName );
+            fileName = GetSHA1HashData( Convert.ToString( TimeSpan.FromTicks( DateTime.Now.ToUniversalTime().Ticks ) ) + fileName );
+            fileName = fileName.Substring( 0, 40 );
+            fileName = fileName + fileExtension;
+
+            System.Diagnostics.Debug.WriteLine( "Imagem velha: " + this.user_image );
+            System.Diagnostics.Debug.WriteLine( "Tamanho da imagem velha: " + this.user_image.Length );
+
+            System.Diagnostics.Debug.WriteLine( "Nova imagem inserida: " + fileName );
+            System.Diagnostics.Debug.WriteLine( "Tamanho da Nova imagem inserida: " + fileName.Length );
+
+            FileUpload1.PostedFile.SaveAs( Server.MapPath( "~/Content/UserImages/" ) + fileName );
+
+            //update tabela user, campo userImage
+            string strCon = System.Web
+          .Configuration
+          .WebConfigurationManager
+          .ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+
+            SqlConnection sqlConnection1 = new SqlConnection( strCon );
+            SqlCommand cmd = new SqlCommand();
+
+            cmd.CommandText = "UPDATE Users SET Img_perfil = '" + fileName + "' WHERE ID_User = " + this.UserId;
+            cmd.CommandType = CommandType.Text;
+            cmd.Connection = sqlConnection1;
+            sqlConnection1.Open();
+            cmd.ExecuteNonQuery();
+            sqlConnection1.Close();
+
+
+            // remover foto antiga na pasta do servidor cujo nome está em this.user_image
+            
+
+            Response.Redirect( Request.Url.AbsoluteUri );
+        } else {
+            LabelErroUploadImagem.Style.Remove( "display" );
+        }
 
     }
 

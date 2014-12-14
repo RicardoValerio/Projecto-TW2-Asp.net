@@ -11,17 +11,20 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="row">
-    <h2><%: Title %></h2>
+        <h2><%: Title %></h2>
         <hr />
         <div class="col-md-4">
-            <img src="../Content/UserImages/<%= user_image %>" alt="User Image" />
+            <img src="../Content/UserImages/<%= user_image %>" height="200" width="200" alt="User Image" />
             <div>
-                <asp:FileUpload ID="FileUpload1" runat="server" />
+                <asp:FileUpload ID="FileUpload1" runat="server"  accept="image/png,image/jpeg" />
+                <asp:Button ID="btnUpload" runat="server" Text="Upload" OnClick="UploadUserImage" />
+                <asp:Label style="color:red; display:none;" ID="LabelErroUploadImagem" runat="server" Text="apenas pode fazer upload de imagens (jpg/png)"></asp:Label>
             </div>
 
         </div>
         <div class="col-md-8">
-            <p>Navbars are responsive meta components that serve as navigation headers for your application or site. They begin collapsed (and are toggleable) in mobile views and become horizontal as the available viewport width increases.
+            <p>
+                Navbars are responsive meta components that serve as navigation headers for your application or site. They begin collapsed (and are toggleable) in mobile views and become horizontal as the available viewport width increases.
 
 Justified navbar nav links are currently not supported.
 Overflowing content
@@ -31,12 +34,12 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
     Reduce the amount or width of navbar items.
     Hide certain navbar items at certain screen sizes using responsive utility classes.
     Change the point at which your navbar switches between collapsed and horizontal mode. Customize the @grid-float-breakpoint variable or add your own media query.
-</p>
+            </p>
         </div>
     </div>
 
     <hr />
-<%-- START SKILLS --%>
+    <%-- START SKILLS --%>
     <h2>User Skills</h2>
     <asp:GridView class="table" Style="margin: 0 auto;" ID="GridView1" AllowPaging="True" PageSize="5" DataKeyNames="ID_Skill" OnPageIndexChanging="OnPagingSkills" AllowSorting="True" runat="server" AutoGenerateColumns="False"
         OnRowDataBound="OnRowDataBoundSkills" OnRowEditing="OnRowEditingSkills" OnRowCancelingEdit="OnRowCancelingEditSkills"
@@ -62,8 +65,8 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
 
                 <ItemStyle Width="140px"></ItemStyle>
             </asp:TemplateField>
-           
-           
+
+
             <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" ControlStyle-CssClass="btn updadeDeleteButtons">
                 <ControlStyle CssClass="btn updadeDeleteButtons"></ControlStyle>
 
@@ -104,25 +107,23 @@ Since Bootstrap doesn't know how much space the content in your navbar needs, yo
     </table>
 
     <hr />
-<%-- END SKILLS --%>
+    <%-- END SKILLS --%>
 
-<%-- START EXPERIENCIA --%>
-
-
-
-<%-- END EXPERIENCIA --%>
+    <%-- START EXPERIENCIA --%>
 
 
-<%-- START FORMAÇÃO --%>
-<%-- END FORMAÇÃO --%>
+
+    <%-- END EXPERIENCIA --%>
 
 
-<%-- START CERTIFICADOS --%>
-<%-- END CERTIFICADOS --%>
-
-<%-- START PUBLICAÇÕES --%>
-<%-- END PUBLICAÇÕES --%>
+    <%-- START FORMAÇÃO --%>
+    <%-- END FORMAÇÃO --%>
 
 
+    <%-- START CERTIFICADOS --%>
+    <%-- END CERTIFICADOS --%>
+
+    <%-- START PUBLICAÇÕES --%>
+    <%-- END PUBLICAÇÕES --%>
 </asp:Content>
 
