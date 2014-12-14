@@ -40,6 +40,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                     SetUserSumario();
                     // fazer o bind de todas as tables
                     this.BindGridSkills();
+                    this.BindGridFormacao();
 
                 } else {
                     // se não existir fazer aqueloutro:
@@ -239,8 +240,8 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                     sda.SelectCommand = cmd;
                     using ( DataTable dt = new DataTable() ) {
                         sda.Fill( dt );
-                        GridView1.DataSource = dt;
-                        GridView1.DataBind();
+                        GridViewSkills.DataSource = dt;
+                        GridViewSkills.DataBind();
                     }
                 }
             }
@@ -272,14 +273,14 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     protected void OnRowEditingSkills( object sender, GridViewEditEventArgs e )
     {
-        GridView1.EditIndex = e.NewEditIndex;
+        GridViewSkills.EditIndex = e.NewEditIndex;
         this.BindGridSkills();
     }
 
     protected void OnRowUpdatingSkills( object sender, GridViewUpdateEventArgs e )
     {
-        GridViewRow row = GridView1.Rows[e.RowIndex];
-        int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+        GridViewRow row = GridViewSkills.Rows[e.RowIndex];
+        int IdSkill = Convert.ToInt32( GridViewSkills.DataKeys[e.RowIndex].Values[0] );
         string nomeSkill = ( row.FindControl( "txtNomeSkill" ) as TextBox ).Text;
         string descricaoSkill = ( row.FindControl( "txtDescricaoSkill" ) as TextBox ).Text;
 
@@ -297,19 +298,19 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 con.Close();
             }
         }
-        GridView1.EditIndex = -1;
+        GridViewSkills.EditIndex = -1;
         this.BindGridSkills();
     }
 
     protected void OnRowCancelingEditSkills( object sender, EventArgs e )
     {
-        GridView1.EditIndex = -1;
+        GridViewSkills.EditIndex = -1;
         this.BindGridSkills();
     }
 
     protected void OnRowDeletingSkills( object sender, GridViewDeleteEventArgs e )
     {
-        int IdSkill = Convert.ToInt32( GridView1.DataKeys[e.RowIndex].Values[0] );
+        int IdSkill = Convert.ToInt32( GridViewSkills.DataKeys[e.RowIndex].Values[0] );
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
             using ( SqlCommand cmd = new SqlCommand( "User_Skills_CRUD" ) ) {
@@ -330,7 +331,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     protected void OnRowDataBoundSkills( object sender, GridViewRowEventArgs e )
     {
-        if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridView1.EditIndex ) {
+        if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridViewSkills.EditIndex ) {
             ( e.Row.Cells[2].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
         }
     }
@@ -338,8 +339,8 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     protected void OnPagingSkills( object sender, GridViewPageEventArgs e )
     {
         this.BindGridSkills();
-        GridView1.PageIndex = e.NewPageIndex;
-        GridView1.DataBind();
+        GridViewSkills.PageIndex = e.NewPageIndex;
+        GridViewSkills.DataBind();
 
     }
 
@@ -350,6 +351,124 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     //END EXPERIENCIA
 
     //START FORMAÇÃO
+    private void BindGridFormacao()
+    {
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Formacao_CRUD" ) ) {
+                cmd.Parameters.AddWithValue( "@Action", "SELECT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+
+                using ( SqlDataAdapter sda = new SqlDataAdapter() ) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = con;
+                    sda.SelectCommand = cmd;
+                    using ( DataTable dt = new DataTable() ) {
+                        sda.Fill( dt );
+                        GridViewFormacao.DataSource = dt;
+                        GridViewFormacao.DataBind();
+                    }
+                }
+            }
+        }
+    }
+
+    protected void InsertFormacao( object sender, EventArgs e )
+    {
+        string skill = DBNomeDaSkill.SelectedValue;
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Formacao_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "INSERT" );
+                cmd.Parameters.AddWithValue( "@ID_User", 1 );
+                cmd.Parameters.AddWithValue( "@ID_Skill", skill );
+                cmd.Parameters.AddWithValue( "@Nome_Skill", "" );
+                cmd.Parameters.AddWithValue( "@Descricao_Skill", "" );
+
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridFormacao();
+    }
+
+    protected void OnRowEditingFormacao( object sender, GridViewEditEventArgs e )
+    {
+        GridViewFormacao.EditIndex = e.NewEditIndex;
+        this.BindGridFormacao();
+    }
+
+    protected void OnRowUpdatingFormacao( object sender, GridViewUpdateEventArgs e )
+    {
+        GridViewRow row = GridViewFormacao.Rows[e.RowIndex];
+        int IdSkill = Convert.ToInt32( GridViewFormacao.DataKeys[e.RowIndex].Values[0] );
+        string nomeSkill = ( row.FindControl( "txtNomeSkill" ) as TextBox ).Text;
+        string descricaoSkill = ( row.FindControl( "txtDescricaoSkill" ) as TextBox ).Text;
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Formacao_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
+                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@Nome_Skill", nomeSkill );
+                cmd.Parameters.AddWithValue( "@Descricao_Skill", descricaoSkill );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        GridViewFormacao.EditIndex = -1;
+        this.BindGridFormacao();
+    }
+
+    protected void OnRowCancelingEditFormacao( object sender, EventArgs e )
+    {
+        GridViewFormacao.EditIndex = -1;
+        this.BindGridFormacao();
+    }
+
+    protected void OnRowDeletingFormacao( object sender, GridViewDeleteEventArgs e )
+    {
+        int IdSkill = Convert.ToInt32( GridViewFormacao.DataKeys[e.RowIndex].Values[0] );
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Formacao_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "DELETE" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@Nome_Skill", "" );
+                cmd.Parameters.AddWithValue( "@Descricao_Skill", "" );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridFormacao();
+    }
+
+    protected void OnRowDataBoundFormacao( object sender, GridViewRowEventArgs e )
+    {
+        if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridViewFormacao.EditIndex ) {
+            ( e.Row.Cells[5].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
+        }
+    }
+
+    protected void OnPagingFormacao( object sender, GridViewPageEventArgs e )
+    {
+        this.BindGridFormacao();
+        GridViewFormacao.PageIndex = e.NewPageIndex;
+        GridViewFormacao.DataBind();
+
+    }
+
     //END FORMAÇÃO
 
     //START CERTIFICADOS
