@@ -208,15 +208,11 @@
         <tr>
             
             <td style="width: 150px">Data Inicio:<br />
-                <asp:TextBox ID="TBDataInicio1" runat="server" Width="20px" Height="35px" />
-                <asp:TextBox ID="TBDataInicio2" runat="server" Width="20px" Height="35px" />
-                <asp:TextBox ID="TBDataInicio3" runat="server" Width="70px" Height="35px" />
+                <asp:TextBox ID="TBDataInicio1" CssClass="datepicker" runat="server" />
             </td>
 
             <td style="width: 150px">Data Fim:<br />
-                <asp:TextBox ID="TBDataFim1" runat="server" Width="20px" Height="35px" />
-                <asp:TextBox ID="TBDataFim2" runat="server" Width="20px" Height="35px" />
-                <asp:TextBox ID="TBDataFim3" runat="server" Width="70px" Height="35px" />
+                <asp:TextBox ID="TBDataFim1" CssClass="datepicker" runat="server" />
             </td>
 
             <td style="width: 150px">Curso:<br />
