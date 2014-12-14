@@ -112,31 +112,31 @@
         OnRowUpdating="OnRowUpdatingFormacao" OnRowDeleting="OnRowDeletingFormacao" EmptyDataText="No records has been added." >
         <Columns>
 
-            <asp:TemplateField HeaderText="Data Inicio" ItemStyle-Width="140">
+            <asp:TemplateField HeaderText="Data Inicio" ItemStyle-Width="90">
 
                 <ItemTemplate>
                     <asp:Label  ID="lblDataInicio" runat="server" Text='<%# Eval("Data_Inicio", "{0:d}") %>'></asp:Label>
                 </ItemTemplate>
 
                 <EditItemTemplate>
-                    <asp:TextBox  ID="txtDataInicio" runat="server" Text='<%# Eval("Data_Inicio", "{0:d}") %>'></asp:TextBox>
+                    <asp:TextBox  ID="txtDataInicio" CssClass="datepicker" runat="server" Text='<%# Eval("Data_Inicio", "{0:d}") %>'></asp:TextBox>
                 </EditItemTemplate>
 
-                <ItemStyle Width="140px"></ItemStyle>
+                <ItemStyle Width="90px"></ItemStyle>
 
             </asp:TemplateField>
                     <%--------------------------------------------------------%>
-            <asp:TemplateField HeaderText="Data Fim" ItemStyle-Width="140">
+            <asp:TemplateField HeaderText="Data Fim" ItemStyle-Width="90">
 
                 <ItemTemplate>
                     <asp:Label ID="lblDataFim" runat="server" Text='<%# Eval("Data_Fim", "{0:d}") %>'></asp:Label>
                 </ItemTemplate>
 
                 <EditItemTemplate>
-                    <asp:TextBox ID="txtDataFim" runat="server" Text='<%# Eval("Data_Fim", "{0:d}") %>'></asp:TextBox>
+                    <asp:TextBox ID="txtDataFim" CssClass="datepicker" runat="server" Text='<%# Eval("Data_Fim", "{0:d}") %>'></asp:TextBox>
                 </EditItemTemplate>
 
-                <ItemStyle Width="140px"></ItemStyle>
+                <ItemStyle Width="90px"></ItemStyle>
 
             </asp:TemplateField>
                      <%--------------------------------------------------------%>
@@ -154,7 +154,7 @@
 
             </asp:TemplateField>
             <%--------------------------------------------------------%>
-            <asp:TemplateField HeaderText="Entidade" ItemStyle-Width="140">
+            <asp:TemplateField HeaderText="Entidade" ItemStyle-Width="120">
 
                 <ItemTemplate>
                     <asp:Label ID="lblEntidade" runat="server" Text='<%# Eval("Entidade") %>'></asp:Label>
@@ -168,7 +168,7 @@
 
             </asp:TemplateField>
             <%--------------------------------------------------------%>
-            <asp:TemplateField HeaderText="Tipo Curso" ItemStyle-Width="140">
+            <asp:TemplateField HeaderText="Tipo Curso" ItemStyle-Width="110">
 
                 <ItemTemplate>
                     <asp:Label ID="lblTipo_Curso" runat="server" Text='<%# Eval("Tipo") %>'></asp:Label>
@@ -178,7 +178,7 @@
                     <asp:TextBox ID="txtTipo_Curso" runat="server" Text='<%# Eval("Tipo") %>'></asp:TextBox>
                 </EditItemTemplate>
 
-                <ItemStyle Width="140px"></ItemStyle>
+                <ItemStyle Width="110px"></ItemStyle>
 
             </asp:TemplateField>
 

@@ -375,17 +375,25 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     protected void InsertFormacao( object sender, EventArgs e )
     {
-        string skill = DBNomeDaSkill.SelectedValue;
+
+        string dataInicio = TBDataInicio1.Text;
+        string dataFim = TBDataFim1.Text;
+        string curso = TBCurso.Text;
+        string entidade = TBEntidade.Text;
+        string tipoCurso = DDLTipoCurso.SelectedValue;
+
 
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
             using ( SqlCommand cmd = new SqlCommand( "Formacao_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "INSERT" );
-                cmd.Parameters.AddWithValue( "@ID_User", 1 );
-                cmd.Parameters.AddWithValue( "@ID_Skill", skill );
-                cmd.Parameters.AddWithValue( "@Nome_Skill", "" );
-                cmd.Parameters.AddWithValue( "@Descricao_Skill", "" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@Data_Inicio", dataInicio );
+                cmd.Parameters.AddWithValue( "@Data_Fim", dataFim );
+                cmd.Parameters.AddWithValue( "@CursoNome", curso );
+                cmd.Parameters.AddWithValue( "@EntidadeNome", entidade );
+                cmd.Parameters.AddWithValue( "@TipoCurso", tipoCurso );
 
                 cmd.Connection = con;
                 con.Open();
@@ -435,16 +443,15 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     protected void OnRowDeletingFormacao( object sender, GridViewDeleteEventArgs e )
     {
-        int IdSkill = Convert.ToInt32( GridViewFormacao.DataKeys[e.RowIndex].Values[0] );
+        string curso = ((Label) GridViewFormacao.SelectedRow.FindControl( "lblCurso" )).Text;
+
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
             using ( SqlCommand cmd = new SqlCommand( "Formacao_CRUD" ) ) {
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "DELETE" );
                 cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
-                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
-                cmd.Parameters.AddWithValue( "@Nome_Skill", "" );
-                cmd.Parameters.AddWithValue( "@Descricao_Skill", "" );
+                cmd.Parameters.AddWithValue( "@ID_Curso", curso );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
