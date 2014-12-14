@@ -184,9 +184,12 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
 
             // remover foto antiga na pasta do servidor cujo nome está em this.user_image
-            
+            if ( this.user_image != "default.png" ) {
+                File.Delete( Server.MapPath( "~/Content/UserImages/" + this.user_image ) );
+            }
 
             Response.Redirect( Request.Url.AbsoluteUri );
+
         } else {
             LabelErroUploadImagem.Style.Remove( "display" );
         }
