@@ -13,7 +13,7 @@ public partial class Login : System.Web.UI.Page
 {
     protected void Page_Load( object sender, EventArgs e )
     {
-        
+
     }
 
     protected void SignIn( object sender, EventArgs e )
@@ -22,13 +22,13 @@ public partial class Login : System.Web.UI.Page
             Session["Perfil"] = "Admin";
             Response.Redirect( "~/Admin/", true );
 
-        } else
-            if ( ValidateUser( TBinputEmail.Text, TBinputPassword.Text ) ) {
-                Session["Perfil"] = "User";
-                Response.Redirect( "~/User/", true );
-            } else
-                //lblMsg.Text = "Incorrect";
-                ErrorAlert.Style.Remove( "display" );
+        } else if ( ValidateUser( TBinputEmail.Text, TBinputPassword.Text ) ) {
+            Session["Perfil"] = "User";
+            Response.Redirect( "~/User/", true );
+        } else {
+            //lblMsg.Text = "Incorrect";
+            ErrorAlert.Style.Remove( "display" );
+        }
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public partial class Login : System.Web.UI.Page
         string connStr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection conn = new SqlConnection( connStr ) ) {
             conn.Open();
-            string sql = "select Mail from Users where Mail = @email and password = @password and Admin = 1";
+            string sql = "SELECT Mail FROM Users WHERE Mail = @email and password = @password AND Admin = 1";
             SqlCommand cmd = new SqlCommand( sql, conn );
             cmd.Parameters.AddWithValue( "@email", user );
             cmd.Parameters.AddWithValue( "@password", Sha1( Salt( pass ) ) );
@@ -51,7 +51,7 @@ public partial class Login : System.Web.UI.Page
         string connStr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection conn = new SqlConnection( connStr ) ) {
             conn.Open();
-            string sql = "select Mail from Users where Mail = @email";
+            string sql = "SELECT Mail FROM Users WHERE Mail = @email AND password = @password";
             SqlCommand cmd = new SqlCommand( sql, conn );
             cmd.Parameters.AddWithValue( "@email", user );
             cmd.Parameters.AddWithValue( "@password", Sha1( Salt( pass ) ) );
