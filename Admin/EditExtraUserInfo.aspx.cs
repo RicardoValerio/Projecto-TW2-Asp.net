@@ -18,6 +18,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 {
     public int UserId;
     public String user_image;
+    public String user_sumario;
 
     protected void Page_Load( object sender, EventArgs e )
     {
@@ -36,6 +37,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                     // se existe fazer isto:
                     // ir buscar o nome da imagem relativa ao id do user 
                     SetUserImage();
+                    SetUserSumario();
                     // fazer o bind de todas as tables
                     this.BindGridSkills();
 
@@ -49,10 +51,34 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
         } else {
             this.UserId = Convert.ToInt32( Request.QueryString["UserId"] );
             SetUserImage();
+            SetUserSumario();
         }
 
     }
 
+    private void SetUserSumario()
+    {
+        string strCon = System.Web
+               .Configuration
+               .WebConfigurationManager
+               .ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+
+        SqlConnection sqlConnection1 = new SqlConnection( strCon );
+        SqlCommand cmd = new SqlCommand();
+        SqlDataReader reader;
+
+        cmd.CommandText = "SELECT Sumario FROM Users WHERE ID_User = " + this.UserId;
+        cmd.CommandType = CommandType.Text;
+        cmd.Connection = sqlConnection1;
+        sqlConnection1.Open();
+
+        reader = cmd.ExecuteReader();
+        // Data is accessible through the DataReader object here.
+        reader.Read();
+        this.user_sumario = (String)reader.GetValue( 0 );
+        System.Diagnostics.Debug.WriteLine( this.user_sumario );
+        sqlConnection1.Close();
+    }
     private void SetUserImage()
     {
         string strCon = System.Web
