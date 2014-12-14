@@ -23,6 +23,8 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     protected void Page_Load( object sender, EventArgs e )
     {
         if ( !this.IsPostBack ) {
+
+
             if ( !( Request.QueryString.Count > 0 ) ) {
                 Response.Redirect( "Users.aspx" );
             } else {
@@ -41,6 +43,9 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                     // fazer o bind de todas as tables
                     this.BindGridSkills();
                     this.BindGridFormacao();
+                    this.BindGridCertificados();
+                    this.BindGridPublicacoes();
+                    this.BindGridExperiencias();
 
                 } else {
                     // se não existir fazer aqueloutro:
@@ -57,6 +62,8 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     }
 
+   
+    
     private void SetUserSumario()
     {
         string strCon = System.Web
@@ -347,6 +354,130 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     //END SKILLS
 
     //START EXPERIENCIA
+    private void BindGridExperiencias()
+    {
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Experiencia_CRUD" ) ) {
+                cmd.Parameters.AddWithValue( "@Action", "SELECT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+
+                using ( SqlDataAdapter sda = new SqlDataAdapter() ) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = con;
+                    sda.SelectCommand = cmd;
+                    using ( DataTable dt = new DataTable() ) {
+                        sda.Fill( dt );
+                        GridViewExperiencias.DataSource = dt;
+                        GridViewExperiencias.DataBind();
+                    }
+                }
+            }
+        }
+    }
+
+    protected void InsertExperiencias( object sender, EventArgs e )
+    {
+
+        string dataInicio = TBDataInicio1.Text;
+        string dataFim = TBDataFim1.Text;
+        string curso = TBCurso.Text;
+        string entidade = TBEntidade.Text;
+        string tipoCurso = DDLTipoCurso.SelectedValue;
+
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Experiencia_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "INSERT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@Data_Inicio", dataInicio );
+                cmd.Parameters.AddWithValue( "@Data_Fim", dataFim );
+                cmd.Parameters.AddWithValue( "@CursoNome", curso );
+                cmd.Parameters.AddWithValue( "@EntidadeNome", entidade );
+                cmd.Parameters.AddWithValue( "@TipoCurso", tipoCurso );
+
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridExperiencias();
+    }
+
+    protected void OnRowEditingExperiencias( object sender, GridViewEditEventArgs e )
+    {
+        GridViewExperiencias.EditIndex = e.NewEditIndex;
+        this.BindGridExperiencias();
+    }
+
+    protected void OnRowUpdatingExperiencias( object sender, GridViewUpdateEventArgs e )
+    {
+        GridViewRow row = GridViewExperiencias.Rows[e.RowIndex];
+        int IdSkill = Convert.ToInt32( GridViewExperiencias.DataKeys[e.RowIndex].Values[0] );
+        string nomeSkill = ( row.FindControl( "txtNomeSkill" ) as TextBox ).Text;
+        string descricaoSkill = ( row.FindControl( "txtDescricaoSkill" ) as TextBox ).Text;
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Experiencia_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
+                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@Nome_Skill", nomeSkill );
+                cmd.Parameters.AddWithValue( "@Descricao_Skill", descricaoSkill );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        GridViewExperiencias.EditIndex = -1;
+        this.BindGridExperiencias();
+    }
+
+    protected void OnRowCancelingEditExperiencias( object sender, EventArgs e )
+    {
+        GridViewExperiencias.EditIndex = -1;
+        this.BindGridExperiencias();
+    }
+
+    protected void OnRowDeletingExperiencias( object sender, GridViewDeleteEventArgs e )
+    {
+        int IdFormacao = Convert.ToInt32( GridViewSkills.DataKeys[e.RowIndex].Values[0] );
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Experiencia_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "DELETE" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@ID_Curso", IdFormacao );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridExperiencias();
+    }
+
+    protected void OnRowDataBoundExperiencias( object sender, GridViewRowEventArgs e )
+    {
+        if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridViewExperiencias.EditIndex ) {
+            ( e.Row.Cells[5].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
+        }
+    }
+
+    protected void OnPagingExperiencias( object sender, GridViewPageEventArgs e )
+    {
+        this.BindGridExperiencias();
+        GridViewExperiencias.PageIndex = e.NewPageIndex;
+        GridViewExperiencias.DataBind();
+
+    }
 
     //END EXPERIENCIA
 
@@ -443,7 +574,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
 
     protected void OnRowDeletingFormacao( object sender, GridViewDeleteEventArgs e )
     {
-        string curso = ((Label) GridViewFormacao.SelectedRow.FindControl( "lblCurso" )).Text;
+        int IdFormacao = Convert.ToInt32( GridViewSkills.DataKeys[e.RowIndex].Values[0] );
 
         string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
         using ( SqlConnection con = new SqlConnection( constr ) ) {
@@ -451,7 +582,7 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue( "@Action", "DELETE" );
                 cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
-                cmd.Parameters.AddWithValue( "@ID_Curso", curso );
+                cmd.Parameters.AddWithValue( "@ID_Curso", IdFormacao );
                 cmd.Connection = con;
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -479,9 +610,259 @@ public partial class Admin_EditExtraUserInfo : System.Web.UI.Page
     //END FORMAÇÃO
 
     //START CERTIFICADOS
+    private void BindGridCertificados()
+    {
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Certificacao_CRUD" ) ) {
+                cmd.Parameters.AddWithValue( "@Action", "SELECT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+
+                using ( SqlDataAdapter sda = new SqlDataAdapter() ) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = con;
+                    sda.SelectCommand = cmd;
+                    using ( DataTable dt = new DataTable() ) {
+                        sda.Fill( dt );
+                        GridViewCertificados.DataSource = dt;
+                        GridViewCertificados.DataBind();
+                    }
+                }
+            }
+        }
+    }
+
+    protected void InsertCertificados( object sender, EventArgs e )
+    {
+
+        string dataInicio = TBDataInicio1.Text;
+        string dataFim = TBDataFim1.Text;
+        string curso = TBCurso.Text;
+        string entidade = TBEntidade.Text;
+        string tipoCurso = DDLTipoCurso.SelectedValue;
+
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Certificacao_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "INSERT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@Data_Inicio", dataInicio );
+                cmd.Parameters.AddWithValue( "@Data_Fim", dataFim );
+                cmd.Parameters.AddWithValue( "@CursoNome", curso );
+                cmd.Parameters.AddWithValue( "@EntidadeNome", entidade );
+                cmd.Parameters.AddWithValue( "@TipoCurso", tipoCurso );
+
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridCertificados();
+    }
+
+    protected void OnRowEditingCertificados( object sender, GridViewEditEventArgs e )
+    {
+        GridViewCertificados.EditIndex = e.NewEditIndex;
+        this.BindGridCertificados();
+    }
+
+    protected void OnRowUpdatingCertificados( object sender, GridViewUpdateEventArgs e )
+    {
+        GridViewRow row = GridViewCertificados.Rows[e.RowIndex];
+        int IdSkill = Convert.ToInt32( GridViewCertificados.DataKeys[e.RowIndex].Values[0] );
+        string nomeSkill = ( row.FindControl( "txtNomeSkill" ) as TextBox ).Text;
+        string descricaoSkill = ( row.FindControl( "txtDescricaoSkill" ) as TextBox ).Text;
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Certificacao_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
+                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@Nome_Skill", nomeSkill );
+                cmd.Parameters.AddWithValue( "@Descricao_Skill", descricaoSkill );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        GridViewCertificados.EditIndex = -1;
+        this.BindGridCertificados();
+    }
+
+    protected void OnRowCancelingEditCertificados( object sender, EventArgs e )
+    {
+        GridViewCertificados.EditIndex = -1;
+        this.BindGridCertificados();
+    }
+
+    protected void OnRowDeletingCertificados( object sender, GridViewDeleteEventArgs e )
+    {
+        int IdFormacao = Convert.ToInt32( GridViewSkills.DataKeys[e.RowIndex].Values[0] );
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Certificacao_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "DELETE" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@ID_Curso", IdFormacao );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridCertificados();
+    }
+
+    protected void OnRowDataBoundCertificados( object sender, GridViewRowEventArgs e )
+    {
+        if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridViewCertificados.EditIndex ) {
+            ( e.Row.Cells[2].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
+        }
+    }
+
+    protected void OnPagingCertificados( object sender, GridViewPageEventArgs e )
+    {
+        this.BindGridCertificados();
+        GridViewCertificados.PageIndex = e.NewPageIndex;
+        GridViewCertificados.DataBind();
+
+    }
+
     //END CERTIFICADOS
 
     //START PUBLICAÇÕES
+    private void BindGridPublicacoes()
+    {
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Autores_CRUD" ) ) {
+                cmd.Parameters.AddWithValue( "@Action", "SELECT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+
+                using ( SqlDataAdapter sda = new SqlDataAdapter() ) {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Connection = con;
+                    sda.SelectCommand = cmd;
+                    using ( DataTable dt = new DataTable() ) {
+                        sda.Fill( dt );
+                        GridViewPublicacoes.DataSource = dt;
+                        GridViewPublicacoes.DataBind();
+                    }
+                }
+            }
+        }
+    }
+
+    protected void InsertPublicacoes( object sender, EventArgs e )
+    {
+
+        string dataInicio = TBDataInicio1.Text;
+        string dataFim = TBDataFim1.Text;
+        string curso = TBCurso.Text;
+        string entidade = TBEntidade.Text;
+        string tipoCurso = DDLTipoCurso.SelectedValue;
+
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Autores_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "INSERT" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@Data_Inicio", dataInicio );
+                cmd.Parameters.AddWithValue( "@Data_Fim", dataFim );
+                cmd.Parameters.AddWithValue( "@CursoNome", curso );
+                cmd.Parameters.AddWithValue( "@EntidadeNome", entidade );
+                cmd.Parameters.AddWithValue( "@TipoCurso", tipoCurso );
+
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridPublicacoes();
+    }
+
+    protected void OnRowEditingPublicacoes( object sender, GridViewEditEventArgs e )
+    {
+        GridViewPublicacoes.EditIndex = e.NewEditIndex;
+        this.BindGridPublicacoes();
+    }
+
+    protected void OnRowUpdatingPublicacoes( object sender, GridViewUpdateEventArgs e )
+    {
+        GridViewRow row = GridViewPublicacoes.Rows[e.RowIndex];
+        int IdSkill = Convert.ToInt32( GridViewPublicacoes.DataKeys[e.RowIndex].Values[0] );
+        string nomeSkill = ( row.FindControl( "txtNomeSkill" ) as TextBox ).Text;
+        string descricaoSkill = ( row.FindControl( "txtDescricaoSkill" ) as TextBox ).Text;
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Autores_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "UPDATE" );
+                cmd.Parameters.AddWithValue( "@ID_Skill", IdSkill );
+                cmd.Parameters.AddWithValue( "@Nome_Skill", nomeSkill );
+                cmd.Parameters.AddWithValue( "@Descricao_Skill", descricaoSkill );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        GridViewPublicacoes.EditIndex = -1;
+        this.BindGridPublicacoes();
+    }
+
+    protected void OnRowCancelingEditPublicacoes( object sender, EventArgs e )
+    {
+        GridViewPublicacoes.EditIndex = -1;
+        this.BindGridPublicacoes();
+    }
+
+    protected void OnRowDeletingPublicacoes( object sender, GridViewDeleteEventArgs e )
+    {
+        int IdFormacao = Convert.ToInt32( GridViewSkills.DataKeys[e.RowIndex].Values[0] );
+
+        string constr = ConfigurationManager.ConnectionStrings["TW2ProjectConnectionString"].ConnectionString;
+        using ( SqlConnection con = new SqlConnection( constr ) ) {
+            using ( SqlCommand cmd = new SqlCommand( "Autores_CRUD" ) ) {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue( "@Action", "DELETE" );
+                cmd.Parameters.AddWithValue( "@ID_User", this.UserId );
+                cmd.Parameters.AddWithValue( "@ID_Curso", IdFormacao );
+                cmd.Connection = con;
+                con.Open();
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+        }
+        this.BindGridPublicacoes();
+    }
+
+    protected void OnRowDataBoundPublicacoes( object sender, GridViewRowEventArgs e )
+    {
+        if ( e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridViewPublicacoes.EditIndex ) {
+            ( e.Row.Cells[3].Controls[2] as LinkButton ).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
+        }
+    }
+
+    protected void OnPagingPublicacoes( object sender, GridViewPageEventArgs e )
+    {
+        this.BindGridPublicacoes();
+        GridViewPublicacoes.PageIndex = e.NewPageIndex;
+        GridViewPublicacoes.DataBind();
+
+    }
+
     //END PUBLICAÇÕES
 
 }
